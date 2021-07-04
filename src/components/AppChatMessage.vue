@@ -19,6 +19,7 @@ export default class AppInput extends Vue {
 <style scoped lang="scss">
 .chat-message {
 	background-color: var(--color-primary);
+	color: var(--color-light);
 	margin: 1rem 1rem;
 	padding: 1rem 1rem;
 	border-radius: 10px;
