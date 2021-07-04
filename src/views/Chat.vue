@@ -1,8 +1,8 @@
 <template>
 	<div class="chat-container">
 		<div class="chat-container__top">
-			{{allMessages}}
-		<!--	<AppChatMessage position="right" v-for="(mex,i) in allMessages" :key="i">{{mex}}</AppChatMessage>-->
+			{{ allMessages }}
+			<!--	<AppChatMessage position="right" v-for="(mex,i) in allMessages" :key="i">{{mex}}</AppChatMessage>-->
 			<!--<AppChatMessage position="left">Ciao!</AppChatMessage>
 			<AppChatMessage position="right">Ciao anche a te</AppChatMessage>
 			<AppChatMessage position="right">Come stai?</AppChatMessage>
@@ -19,10 +19,9 @@
 				label="Message"
 				v-model="text"
 				backgroundColor="accent"
-				
 			/>
 			<button @click="sendMessage">Send</button>
-			<AppSendButton class="chat-container__bottom__button" @click="sendMessage"/>
+			<AppSendButton class="chat-container__bottom__button" @click="sendMessage" />
 		</div>
 	</div>
 </template>
@@ -36,7 +35,7 @@ import { Options, Vue } from 'vue-class-component';
 })
 export default class Chat extends Vue {
 	text = '';
-	allMessages =[]
+	allMessages = [];
 	get appGunNode() {
 		return this.$gun.get('livechat');
 	}
@@ -50,15 +49,19 @@ export default class Chat extends Vue {
 	}
 	sendMessage() {
 		const message = this.text;
-		this.$gun.get('livechat').get(`${this.currentChatGunNode}`).put({message})
-		
-		
+		this.$gun
+			.get('livechat')
+			.get(`${this.currentChatGunNode}`)
+			.put({ message });
 	}
-	get allMessage(){
-		this.$gun.get('livechat').get(`${this.currentChatGunNode}`,data=>{
-			this.allMessages.push(data)
-		})
-		return this.allMessages
+	get allMessage() {
+		this.$gun
+			.get('livechat')
+			.get(`${this.currentChatGunNode}`)
+			.on((data) => {
+				this.allMessages.push(data);
+			});
+		return this.allMessages;
 	}
 
 	created() {
