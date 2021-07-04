@@ -49,7 +49,7 @@ export default class Chat extends Vue {
 		return this.$gun.get('livechat');
 	}
 
-	get currentChatGunNode() {
+	get currentChatName() {
 		return this.userState.chatName;
 	}
 
@@ -58,22 +58,45 @@ export default class Chat extends Vue {
 	}
 
 	get currentMessageNode() {
-		return this.$gun
-			.get('livechat')
-			.get(`${this.currentChatGunNode}`)
+		return this.appGunNode
+			.get(`${this.currentChatName}`)
+			.get('messageListData')
 			.get(this.currentMessageId);
 	}
 
-	syncMessage() {
-		this.currentMessageNode.put({
-			message: this.text
+	get currentMessageListNode() {
+		return this.appGunNode.get(`${this.currentChatName}`).get('messageList');
+	}
+
+	addMessageToList() {
+		return new Promise((res) => {
+			if (this.currentMessageNode) {
+				this.currentMessageListNode.set(this.currentMessageNode, (ack) => {
+					res(ack);
+				});
+			}
 		});
 	}
 
-	created() {
-		this.currentMessageNode.on((newMessage) => {
-			console.log(newMessage);
+	syncMessage() {
+		return new Promise((res) => {
+			this.currentMessageNode.put(
+				{
+					message: this.text
+				},
+				(ack) => {
+					res(ack);
+				}
+			);
 		});
+	}
+
+	async created() {
+		this.currentMessageListNode.map().on((data) => {
+			console.log(data);
+		});
+		await this.syncMessage();
+		await this.addMessageToList();
 	}
 }
 </script>

@@ -1,9 +1,12 @@
 export interface IGunDbModel {
     livechat: {
         [chatMessageName: string]: {
-            [id: string]: {
-                message: string
-            }
+            messageListData: {
+                [id: string]: {
+                    message: string
+                }
+            },
+            messageList: any[]
         }
     }
 }
