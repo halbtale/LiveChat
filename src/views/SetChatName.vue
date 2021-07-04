@@ -1,6 +1,10 @@
 <template>
 	<div class="set-chat-name-container">
-		<AppInput label="What is your chat's name?" />
+		<AppInput
+			label="What is your chat's name?"
+			v-model="userState.chatName"
+			@submit="onChatNameSubmit"
+		/>
 	</div>
 </template>
 
@@ -13,6 +17,10 @@ import { Options, Vue } from 'vue-class-component';
 export default class SetChatname extends Vue {
 	get userState() {
 		return StoreSystem.state.userState;
+	}
+
+	onChatNameSubmit() {
+		this.$router.push({ name: 'Chat' });
 	}
 }
 </script>

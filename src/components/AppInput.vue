@@ -4,6 +4,7 @@
 			:class="`text-field text-field--${backgroundColor}`"
 			v-model="value"
 			:placeholder="label"
+			@keypress.enter="$emit('submit')"
 		/>
 	</div>
 </template>
@@ -14,7 +15,7 @@ import { Options, Vue } from 'vue-class-component';
 
 @Options({
 	name: 'AppInput',
-	components: {}
+	emits: ['submit']
 })
 export default class AppInput extends Vue {
 	@Model('modelValue')
