@@ -29,12 +29,20 @@ import { Options, Vue } from 'vue-class-component';
 	name: 'Chat'
 })
 export default class Chat extends Vue {
+	get appGunNode() {
+		return this.$gun.get('livechat');
+	}
+
+	get currentChatGunNode() {
+		return this.appGunNode.get(this.userState.chatName);
+	}
+
 	get userState() {
 		return StoreSystem.state.userState;
 	}
 
 	created() {
-		console.log(this.$gun);
+		console.log(this.currentChatGunNode);
 	}
 }
 </script>
