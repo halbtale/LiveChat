@@ -22,6 +22,8 @@
 	grid-template-rows: repeat(10, 1fr);
 	height: 90vh;
 	row-gap: 1rem;
+	max-width: 30rem;
+	margin: auto;
 
 	&__top {
 		grid-row: 1 / 9;
