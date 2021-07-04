@@ -49,8 +49,8 @@ export default class Chat extends Vue {
 		return StoreSystem.state.userState;
 	}
 	sendMessage() {
-		const message = this.text as any;
-		this.$gun.get('single-message').put({message})
+		const message = this.text;
+		//this.$gun.get('single-message').put({message})
 		
 		
 	}
