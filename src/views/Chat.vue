@@ -1,8 +1,11 @@
 <template>
 	<div class="chat-container">
 		<div class="chat-container__top">
+			<!--	<AppChatMessage position="right" v-for="(singlemessage,i) in allMessages" :key="i">{{singlemessage.message}}</AppChatMessage>-->
 			{{ allMessages }}
-			<!--	<AppChatMessage position="right" v-for="(mex,i) in allMessages" :key="i">{{mex}}</AppChatMessage>-->
+			{{messages}}
+			<AppChatMessage position="right" v-for="(mex, i) in allMessages" :key="i">{{ mex }}</AppChatMessage>
+			<AppChatMessage position="right" v-if="text.length > 0">{{ text }}</AppChatMessage>
 			<!--<AppChatMessage position="left">Ciao!</AppChatMessage>
 			<AppChatMessage position="right">Ciao anche a te</AppChatMessage>
 			<AppChatMessage position="right">Come stai?</AppChatMessage>
@@ -20,7 +23,7 @@
 				v-model="text"
 				backgroundColor="accent"
 			/>
-			<button @click="sendMessage">Send</button>
+
 			<AppSendButton class="chat-container__bottom__button" @click="sendMessage" />
 		</div>
 	</div>
@@ -35,33 +38,39 @@ import { Options, Vue } from 'vue-class-component';
 })
 export default class Chat extends Vue {
 	text = '';
-	allMessages = [];
+	messages = [];
 	get appGunNode() {
 		return this.$gun.get('livechat');
 	}
 
 	get currentChatGunNode() {
-		return this.appGunNode.get(this.userState.chatName);
+		return this.userState.chatName;
+		//return this.appGunNode.get(this.userState.chatName);
 	}
 
 	get userState() {
 		return StoreSystem.state.userState;
 	}
-	sendMessage() {
+	async sendMessage() {
 		const message = this.text;
-		this.$gun
+
+		await this.$gun
 			.get('livechat')
 			.get(`${this.currentChatGunNode}`)
 			.put({ message });
+		this.text = ""
+		
 	}
-	get allMessage() {
+	get allMessages() {
 		this.$gun
 			.get('livechat')
 			.get(`${this.currentChatGunNode}`)
-			.on((data) => {
-				this.allMessages.push(data);
+			.once((data) => {
+				console.log(data)
+				this.messages.push(data.message);
 			});
-		return this.allMessages;
+		console.log(this.messages);
+		return this.messages;
 	}
 
 	created() {
