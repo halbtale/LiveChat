@@ -20,6 +20,9 @@ export default class SetUsername extends Vue {
 	}
 
 	onUsernameSubmit() {
+		//const user = this.$gun.user()
+		//const username = this.userState.username;
+		//user.get('username').put({username})
 		this.$router.push({ name: 'SetChatName' });
 	}
 }

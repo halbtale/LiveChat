@@ -1,7 +1,9 @@
 <template>
 	<div class="chat-container">
 		<div class="chat-container__top">
-			<AppChatMessage position="left">Ciao!</AppChatMessage>
+			{{allMessages}}
+			<AppChatMessage position="right" v-for="(mex,i) in allMessages" :key="i">{{mex}}</AppChatMessage>
+			<!--<AppChatMessage position="left">Ciao!</AppChatMessage>
 			<AppChatMessage position="right">Ciao anche a te</AppChatMessage>
 			<AppChatMessage position="right">Come stai?</AppChatMessage>
 			<AppChatMessage position="left">Molto bene, tu?</AppChatMessage>
@@ -9,14 +11,18 @@
 			<AppChatMessage position="left">Andiamo a prendere un gelato?</AppChatMessage>
 			<AppChatMessage position="left">Ho fame...</AppChatMessage>
 			<AppChatMessage position="right">Sì dai</AppChatMessage>
+			<AppChatMessage position="right">{{message}}</AppChatMessage>-->
 		</div>
 		<div class="chat-container__bottom">
 			<AppInput
 				class="chat-container__bottom__text-field"
 				label="Message"
+				v-model="text"
 				backgroundColor="accent"
+				
 			/>
-			<AppSendButton class="chat-container__bottom__button" />
+			<button @click="sendMessage">Send</button>
+			<AppSendButton class="chat-container__bottom__button" @click="sendMessage"/>
 		</div>
 	</div>
 </template>
@@ -29,6 +35,8 @@ import { Options, Vue } from 'vue-class-component';
 	name: 'Chat'
 })
 export default class Chat extends Vue {
+	text = '';
+	allMessages =[]
 	get appGunNode() {
 		return this.$gun.get('livechat');
 	}
@@ -39,6 +47,18 @@ export default class Chat extends Vue {
 
 	get userState() {
 		return StoreSystem.state.userState;
+	}
+	sendMessage() {
+		const message = this.text as any;
+		this.$gun.get('single-message').put({message})
+		
+		
+	}
+	get allMessage(){
+		this.$gun.get('single-message',data=>{
+			this.allMessages.push(data)
+		})
+		return this.allMessages
 	}
 
 	created() {
