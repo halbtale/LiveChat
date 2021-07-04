@@ -28,7 +28,10 @@
 				@input="syncMessage"
 			/>
 
-			<AppSendButton class="chat-container__bottom__button" />
+			<AppSendButton
+				class="chat-container__bottom__button"
+				@click="submitMessage"
+			/>
 		</div>
 	</div>
 </template>
@@ -43,7 +46,7 @@ import { v4 as uuid } from 'uuid';
 })
 export default class Chat extends Vue {
 	text = '';
-	currentMessageId = uuid();
+	currentMessageId = '';
 
 	get appGunNode() {
 		return this.$gun.get('livechat');
@@ -91,10 +94,21 @@ export default class Chat extends Vue {
 		});
 	}
 
+	setNewId() {
+		const newId = uuid();
+		this.currentMessageId = newId;
+	}
+
+	submitMessage() {
+		// this.setNewId();
+		// this.text = '';
+	}
+
 	async created() {
 		this.currentMessageListNode.map().on((data) => {
 			console.log(data);
 		});
+		this.setNewId();
 		await this.syncMessage();
 		await this.addMessageToList();
 	}
