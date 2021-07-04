@@ -1,7 +1,8 @@
+import { IGunDbModel } from '@/models/IGunDbModel';
 import { IGunChainReference } from 'gun/types/chain';
 
 declare module "@vue/runtime-core" {
     interface ComponentCustomProperties {
-        $gun: IGunChainReference<any, any, "pre_root">;
+        $gun: IGunChainReference<IGunDbModel, any, "pre_root">;
     }
 }
