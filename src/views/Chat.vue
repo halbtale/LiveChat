@@ -2,10 +2,13 @@
 	<div class="chat-container">
 		<div class="chat-container__top">
 			<!--	<AppChatMessage position="right" v-for="(singlemessage,i) in allMessages" :key="i">{{singlemessage.message}}</AppChatMessage>-->
-			{{ allMessages }}
-			{{messages}}
-			<AppChatMessage position="right" v-for="(mex, i) in allMessages" :key="i">{{ mex }}</AppChatMessage>
-			<AppChatMessage position="right" v-if="text.length > 0">{{ text }}</AppChatMessage>
+			<!-- 
+			<AppChatMessage position="right" v-for="(mex, i) in messages" :key="i">{{
+				mex
+			}}</AppChatMessage> -->
+			<!-- <AppChatMessage position="right" v-if="text.length > 0">{{
+				text
+			}}</AppChatMessage> -->
 			<!--<AppChatMessage position="left">Ciao!</AppChatMessage>
 			<AppChatMessage position="right">Ciao anche a te</AppChatMessage>
 			<AppChatMessage position="right">Come stai?</AppChatMessage>
@@ -22,9 +25,10 @@
 				label="Message"
 				v-model="text"
 				backgroundColor="accent"
+				@input="syncMessage"
 			/>
 
-			<AppSendButton class="chat-container__bottom__button" @click="sendMessage" />
+			<AppSendButton class="chat-container__bottom__button" />
 		</div>
 	</div>
 </template>
@@ -32,49 +36,45 @@
 <script lang="ts">
 import { StoreSystem } from '@/systems/StoreSystem';
 import { Options, Vue } from 'vue-class-component';
+import { v4 as uuid } from 'uuid';
 
 @Options({
 	name: 'Chat'
 })
 export default class Chat extends Vue {
 	text = '';
-	messages = [];
+	currentMessageId = uuid();
+
 	get appGunNode() {
 		return this.$gun.get('livechat');
 	}
 
 	get currentChatGunNode() {
 		return this.userState.chatName;
-		//return this.appGunNode.get(this.userState.chatName);
 	}
 
 	get userState() {
 		return StoreSystem.state.userState;
 	}
-	async sendMessage() {
-		const message = this.text;
 
-		await this.$gun
-			.get('livechat')
-			.get(`${this.currentChatGunNode}`)
-			.put({ message });
-		this.text = ""
-		
-	}
-	get allMessages() {
+	syncMessage() {
 		this.$gun
 			.get('livechat')
 			.get(`${this.currentChatGunNode}`)
-			.once((data) => {
-				console.log(data)
-				this.messages.push(data.message);
+			.get(this.currentMessageId)
+			.put({
+				message: this.text
 			});
-		console.log(this.messages);
-		return this.messages;
 	}
 
 	created() {
-		console.log(this.currentChatGunNode);
+		this.$gun
+			.get('livechat')
+			.get(`${this.currentChatGunNode}`)
+			.get(this.currentMessageId)
+			.on((newMessage) => {
+				console.log(newMessage);
+			});
 	}
 }
 </script>
