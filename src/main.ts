@@ -9,6 +9,9 @@ import VueGlobalComponentsPlugin from './plugins/VueGlobalComponentsPlugin';
 import './registerServiceWorker'
 import router from './router'
 import store from './store'
+import Gun from 'gun/gun';
+
+const gun = new Gun({ peers: ['https://gunjs-server.herokuapp.com/gun'] });
 
 library.add(faPaperPlane)
 
@@ -17,5 +20,6 @@ const app = createApp(App)
 app.use(store).use(router).directive("scroll-from-bottom", scrollFromBottomDirective).component('icon', FontAwesomeIcon)
 
 VueGlobalComponentsPlugin(app)
+app.config.globalProperties.$gun = gun;
 
 app.mount('#app')
