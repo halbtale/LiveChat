@@ -5,6 +5,7 @@
 			v-model="value"
 			:placeholder="label"
 			@keypress.enter="$emit('submit')"
+			@input="$emit('input')"
 			v-autofocus
 		/>
 	</div>
@@ -16,7 +17,7 @@ import { Options, Vue } from 'vue-class-component';
 
 @Options({
 	name: 'AppInput',
-	emits: ['submit']
+	emits: ['submit', 'input']
 })
 export default class AppInput extends Vue {
 	@Model('modelValue')
