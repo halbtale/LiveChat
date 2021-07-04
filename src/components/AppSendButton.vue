@@ -1,12 +1,12 @@
 <template>
-	<div class="app-add-button" @click="$emit('click')">
-		<icon icon="plus" />
+	<div class="app-send-button" @click="$emit('click')">
+		<icon icon="paper-plane" />
 	</div>
 </template>
 
 <style scoped lang="scss">
-.app-add-button {
-	background-color: var(--color-accent);
+.app-send-button {
+	background-color: var(--color-accent-dark);
 	border-radius: 50%;
 	width: 3rem;
 	height: 3rem;

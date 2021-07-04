@@ -1,6 +1,10 @@
 <template>
 	<div class="text-field-box">
-		<input class="text-field" v-model="value" :placeholder="label" />
+		<input
+			:class="`text-field text-field--${backgroundColor}`"
+			v-model="value"
+			:placeholder="label"
+		/>
 	</div>
 </template>
 
@@ -18,6 +22,9 @@ export default class AppInput extends Vue {
 
 	@Prop()
 	label: string;
+
+	@Prop({ default: 'primary' })
+	backgroundColor: string;
 }
 </script>
 
@@ -29,7 +36,6 @@ export default class AppInput extends Vue {
 	height: 3rem;
 	width: 15rem;
 	outline: none;
-	background-color: var(--color-primary);
 	color: var(--color-lightest);
 	padding: 0.8em 1em;
 	border: 1px solid black;
@@ -40,12 +46,16 @@ export default class AppInput extends Vue {
 		font-weight: lighter;
 	}
 
-	&:focus {
-		// border: 1px solid $color-dark-blue;
-	}
-
 	&:hover {
 		box-shadow: 1px 0px 10px 3px var(--color-dark);
+	}
+
+	&--primary {
+		background-color: var(--color-primary);
+	}
+
+	&--accent {
+		background-color: var(--color-accent-dark);
 	}
 }
 </style>

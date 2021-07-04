@@ -11,7 +11,12 @@
 			<AppChatMessage position="right">Sì dai</AppChatMessage>
 		</div>
 		<div class="chat-container__bottom">
-			<AppAddButton />
+			<AppInput
+				class="chat-container__bottom__text-field"
+				label="Message"
+				backgroundColor="accent"
+			/>
+			<AppSendButton class="chat-container__bottom__button" />
 		</div>
 	</div>
 </template>
@@ -34,8 +39,16 @@
 		margin: 0 1rem;
 		grid-row: 9 / 11;
 		display: grid;
-		justify-content: flex-end;
-		align-content: center;
+		grid-template-columns: repeat(12, 1fr);
+		align-items: center;
+
+		&__text-field {
+			grid-column: 1 / 10;
+		}
+
+		&__button {
+			grid-column: 11 / 13;
+		}
 	}
 }
 </style>
