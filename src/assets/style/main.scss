@@ -1,14 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Otomanopee+One&display=swap');
+
 :root {
 	--color-primary: #007509;
 	--color-accent: #eb269c;
 	--color-lightest: #ffffff;
-	--color-light: #e2e2e2;
+	--color-light: #c7c7c7;
 	--color-dark: #1f1f1f;
 	--color-darkest: #121212;
 }
 
 * {
 	box-sizing: border-box;
+	font-family: inherit;
+}
+
+html {
+	font-size: 16px;
+	font-family: 'Otomanopee One', sans-serif;
+}
+
+#app {
+	min-height: 100vh;
 }
 
 html,

@@ -25,25 +25,27 @@ export default class AppInput extends Vue {
 .text-field-box {
 	margin: 0.6rem 0;
 }
-// .text-field {
-// height: 1rem;
-// width: 15rem;
-// outline: none;
-// background-color: none;
-// padding: 0.8em 1em;
-// border: 1px solid black;
+.text-field {
+	height: 3rem;
+	width: 15rem;
+	outline: none;
+	background-color: var(--color-primary);
+	color: var(--color-lightest);
+	padding: 0.8em 1em;
+	border: 1px solid black;
+	border-radius: 10px;
 
-// &::placeholder {
-// 	// color: $color-lighter-grey;
-// 	font-weight: lighter;
-// }
+	&::placeholder {
+		color: var(--color-light);
+		font-weight: lighter;
+	}
 
-// &:focus {
-// 	// border: 1px solid $color-dark-blue;
-// }
+	&:focus {
+		// border: 1px solid $color-dark-blue;
+	}
 
-// &:hover {
-// 	box-shadow: 1px 0px 10px 3px rgb(236, 236, 236);
-// }
-// }
+	&:hover {
+		box-shadow: 1px 0px 10px 3px var(--color-dark);
+	}
+}
 </style>
