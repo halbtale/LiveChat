@@ -2,7 +2,7 @@
 	<div class="chat-container">
 		<div class="chat-container__top">
 			{{allMessages}}
-			<AppChatMessage position="right" v-for="(mex,i) in allMessages" :key="i">{{mex}}</AppChatMessage>
+		<!--	<AppChatMessage position="right" v-for="(mex,i) in allMessages" :key="i">{{mex}}</AppChatMessage>-->
 			<!--<AppChatMessage position="left">Ciao!</AppChatMessage>
 			<AppChatMessage position="right">Ciao anche a te</AppChatMessage>
 			<AppChatMessage position="right">Come stai?</AppChatMessage>
@@ -50,12 +50,12 @@ export default class Chat extends Vue {
 	}
 	sendMessage() {
 		const message = this.text;
-		//this.$gun.get('single-message').put({message})
+		this.$gun.get('livechat').get(`${this.currentChatGunNode}`).put({message})
 		
 		
 	}
 	get allMessage(){
-		this.$gun.get('single-message',data=>{
+		this.$gun.get('livechat').get(`${this.currentChatGunNode}`,data=>{
 			this.allMessages.push(data)
 		})
 		return this.allMessages
