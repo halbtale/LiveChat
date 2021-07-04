@@ -21,6 +21,19 @@
 	</div>
 </template>
 
+<script lang="ts">
+import { StoreSystem } from '@/systems/StoreSystem';
+import { Options, Vue } from 'vue-class-component';
+@Options({
+	name: 'Chat'
+})
+export default class Chat extends Vue {
+	get userState() {
+		return StoreSystem.state.userState;
+	}
+}
+</script>
+
 <style scoped lang="scss">
 .chat-container {
 	display: grid;

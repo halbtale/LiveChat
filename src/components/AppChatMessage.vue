@@ -7,10 +7,10 @@ import { Prop } from 'vue-property-decorator';
 import { Options, Vue } from 'vue-class-component';
 
 @Options({
-	name: 'AppInput',
+	name: 'AppChatMessage',
 	components: {}
 })
-export default class AppInput extends Vue {
+export default class AppChatMessage extends Vue {
 	@Prop()
 	position: string;
 }

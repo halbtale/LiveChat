@@ -4,6 +4,19 @@
 	</div>
 </template>
 
+<script lang="ts">
+import { StoreSystem } from '@/systems/StoreSystem';
+import { Options, Vue } from 'vue-class-component';
+@Options({
+	name: 'SetUsername'
+})
+export default class SetUsername extends Vue {
+	get userState() {
+		return StoreSystem.state.userState;
+	}
+}
+</script>
+
 <style scoped lang="scss">
 .set-username-container {
 	display: grid;

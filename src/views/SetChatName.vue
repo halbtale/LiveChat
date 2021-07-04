@@ -4,6 +4,19 @@
 	</div>
 </template>
 
+<script lang="ts">
+import { StoreSystem } from '@/systems/StoreSystem';
+import { Options, Vue } from 'vue-class-component';
+@Options({
+	name: 'SetChatname'
+})
+export default class SetChatname extends Vue {
+	get userState() {
+		return StoreSystem.state.userState;
+	}
+}
+</script>
+
 <style scoped lang="scss">
 .set-chat-name-container {
 	display: grid;
