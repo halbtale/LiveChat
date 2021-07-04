@@ -1,6 +1,6 @@
 <template>
 	<div class="chat-container">
-		<div class="chat-container__top" v-scroll-from-bottom>
+		<div class="chat-container__top">
 			<AppChatMessage position="left">Ciao!</AppChatMessage>
 			<AppChatMessage position="right">Ciao anche a te</AppChatMessage>
 			<AppChatMessage position="right">Come stai?</AppChatMessage>

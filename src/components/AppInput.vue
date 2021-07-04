@@ -5,6 +5,7 @@
 			v-model="value"
 			:placeholder="label"
 			@keypress.enter="$emit('submit')"
+			v-autofocus
 		/>
 	</div>
 </template>
