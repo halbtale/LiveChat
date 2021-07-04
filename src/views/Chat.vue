@@ -57,24 +57,23 @@ export default class Chat extends Vue {
 		return StoreSystem.state.userState;
 	}
 
-	syncMessage() {
-		this.$gun
+	get currentMessageNode() {
+		return this.$gun
 			.get('livechat')
 			.get(`${this.currentChatGunNode}`)
-			.get(this.currentMessageId)
-			.put({
-				message: this.text
-			});
+			.get(this.currentMessageId);
+	}
+
+	syncMessage() {
+		this.currentMessageNode.put({
+			message: this.text
+		});
 	}
 
 	created() {
-		this.$gun
-			.get('livechat')
-			.get(`${this.currentChatGunNode}`)
-			.get(this.currentMessageId)
-			.on((newMessage) => {
-				console.log(newMessage);
-			});
+		this.currentMessageNode.on((newMessage) => {
+			console.log(newMessage);
+		});
 	}
 }
 </script>
