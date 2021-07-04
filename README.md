@@ -1,4 +1,4 @@
-# live-chat
+# Live Chat
 
 ## Project setup
 ```
