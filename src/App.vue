@@ -1,3 +1,4 @@
 <template>
-  <router-view/>
+	<Header />
+	<router-view />
 </template>
