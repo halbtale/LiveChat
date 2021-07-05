@@ -2,7 +2,12 @@
 	<div class="chat-container">
 		<div class="chat-container__top" ref="chat">
 			<div v-for="(message, i) in messageList" :key="String(i)">
-				<AppChatMessage position="right" v-if="userState.username === message.username">
+				{{ Object.values(message._['>'])[0] }}
+				<AppChatMessage
+					position="right"
+					v-if="userState.username === message.username"
+					@click="deleteSingleMessageFromList(message, i)"
+				>
 					{{ message.message }}
 				</AppChatMessage>
 
@@ -36,6 +41,8 @@ import { v4 as uuid } from 'uuid';
 })
 export default class Chat extends Vue {
 	text = '';
+	selectedItem = 0;
+	item: Array<any> = [];
 	currentMessageId = '';
 	prova = '';
 	messageMap = new Map<string, { message: string; username: string }>();
@@ -70,6 +77,7 @@ export default class Chat extends Vue {
 			}
 		});
 	}
+
 	syncMessage() {
 		const username = this.userState.username;
 		return new Promise((res) => {
@@ -120,6 +128,30 @@ export default class Chat extends Vue {
 		await this.syncMessage();
 		await this.addMessageToList();
 	}
+	deleteSingleMessageFromList(message, index) {
+		//const id = Object.values(message._['>'][])
+		const id = Object.values(message._['>'])[0] as number;
+		this.appGunNode
+			.get(`${this.currentChatName}`)
+			.get('messageListData')
+			.get(id)
+			.put({ message: '' });
+	}
+
+	//async deleteSingleMessage(item,index){
+	///	this.currentMessageListNode.map().on((data, path) => {
+	//		const idMatches = path.match(/\/([^/]*)$/);
+	//		const id = idMatches[1];
+
+	//	});
+	//this.selectedItem = index;
+	//this.item = item;
+	//const allImages = this.messageList
+	//allImages.splice(index, 1);
+	//this.messageMap.splice()
+	//this.messageMap.delete(index)
+	//await this.addMessageToList();
+	//}
 }
 </script>
 
