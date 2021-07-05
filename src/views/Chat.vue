@@ -146,21 +146,6 @@ export default class Chat extends Vue {
 				.put({ message: '' });
 		}
 	}
-
-	//async deleteSingleMessage(item,index){
-	///	this.currentMessageListNode.map().on((data, path) => {
-	//		const idMatches = path.match(/\/([^/]*)$/);
-	//		const id = idMatches[1];
-
-	//	});
-	//this.selectedItem = index;
-	//this.item = item;
-	//const allImages = this.messageList
-	//allImages.splice(index, 1);
-	//this.messageMap.splice()
-	//this.messageMap.delete(index)
-	//await this.addMessageToList();
-	//}
 }
 </script>
 
@@ -178,19 +163,17 @@ export default class Chat extends Vue {
 	}
 	&__bottom {
 		margin: 0 1rem;
+		column-gap: 1rem;
 		grid-row: 9 / 11;
 		display: grid;
 		grid-template-columns: repeat(12, 1fr);
 		align-items: center;
 		&__text-field {
-			grid-column: 1 / 10;
+			grid-column: 1 / 11;
 		}
 		&__button {
 			grid-column: 11 / 13;
 		}
 	}
-}
-#input {
-	width: 20rem;
 }
 </style>

@@ -37,8 +37,7 @@ export default class AppInput extends Vue {
 }
 .text-field {
 	height: 3rem;
-	width:-webkit-fill-available;
-	min-width: 15rem;
+	width: 100%;
 	outline: none;
 	color: var(--color-lightest);
 	padding: 0.8em 1em;
@@ -48,7 +47,7 @@ export default class AppInput extends Vue {
 	&::placeholder {
 		color: var(--color-light);
 		font-weight: lighter;
-		font-size:1rem;
+		font-size: 1rem;
 	}
 
 	&:hover {
@@ -60,7 +59,7 @@ export default class AppInput extends Vue {
 	}
 
 	&--accent {
-		background-color:  var(--color-dark);
+		background-color: var(--color-dark);
 	}
 }
 </style>
