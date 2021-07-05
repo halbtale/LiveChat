@@ -4,10 +4,17 @@ export interface IGunDbModel {
         [chatMessageName: string]: {
             messageListData: {
                 [id: string]: {
-                    message: string
+                    message: string;
+                    username: string
+
                 }
             },
-            messageList: any[]
+
+            messageList: any[],
+
+
+
+
 
 
 

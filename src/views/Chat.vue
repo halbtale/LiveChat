@@ -1,23 +1,16 @@
 <template>
 	<div class="chat-container">
 		<div class="chat-container__top">
-			<!--	<AppChatMessage position="right" v-for="(singlemessage,i) in allMessages" :key="i">{{singlemessage.message}}</AppChatMessage>-->
-			<!-- 
-			<AppChatMessage position="right" v-for="(mex, i) in messages" :key="i">{{
-				mex
-			}}</AppChatMessage> -->
-			<!-- <AppChatMessage position="right" v-if="text.length > 0">{{
-				text
-			}}</AppChatMessage> -->
-			<!--<AppChatMessage position="left">Ciao!</AppChatMessage>
-			<AppChatMessage position="right">Ciao anche a te</AppChatMessage>
-			<AppChatMessage position="right">Come stai?</AppChatMessage>
-			<AppChatMessage position="left">Molto bene, tu?</AppChatMessage>
-			<AppChatMessage position="right">Anche io molto bene, grazie</AppChatMessage>
-			<AppChatMessage position="left">Andiamo a prendere un gelato?</AppChatMessage>
-			<AppChatMessage position="left">Ho fame...</AppChatMessage>
-			<AppChatMessage position="right">Sì dai</AppChatMessage>
-			<AppChatMessage position="right">{{message}}</AppChatMessage>-->
+			{{messageList }}
+
+			<div v-for="(message, i) in messageList" :key="String(i)">
+				<AppChatMessage  position="left" v-if="message.username[0] === userState.username">
+					{{ message.message }}
+				</AppChatMessage>
+				<AppChatMessage position="right" v-if="message.username[0] !== userState.username">
+					{{ message.message }}
+				</AppChatMessage>
+			</div>
 		</div>
 		<div class="chat-container__bottom">
 			<AppInput
@@ -28,10 +21,7 @@
 				@input="syncMessage"
 			/>
 
-			<AppSendButton
-				class="chat-container__bottom__button"
-				@click="submitMessage"
-			/>
+			<AppSendButton class="chat-container__bottom__button" @click="submitMessage" />
 		</div>
 	</div>
 </template>
@@ -46,6 +36,20 @@ import { v4 as uuid } from 'uuid';
 export default class Chat extends Vue {
 	text = '';
 	currentMessageId = '';
+	prova = '';
+	messageMap = new Map<string, string>();
+	usernameMap = []; // id, messa(id, data.message)
+
+	get messageList() {
+		const messages = Array.from(this.messageMap.values());
+		const users = [...new Set(this.usernameMap)]
+		const mergeMessagesAndUsers = messages.map((data)=>{
+			return {message:data,username:users}
+		})
+		console.log(mergeMessagesAndUsers);
+		return mergeMessagesAndUsers;
+	}
+
 	get appGunNode() {
 		return this.$gun.get('livechat');
 	}
@@ -64,6 +68,7 @@ export default class Chat extends Vue {
 	get currentMessageListNode() {
 		return this.appGunNode.get(`${this.currentChatName}`).get('messageList');
 	}
+
 	addMessageToList() {
 		return new Promise((res) => {
 			if (this.currentMessageNode) {
@@ -74,11 +79,14 @@ export default class Chat extends Vue {
 		});
 	}
 	syncMessage() {
+		const username = this.userState.username;
 		return new Promise((res) => {
 			this.currentMessageNode.put(
 				{
-					message: this.text
+					message: this.text,
+					username: username
 				},
+
 				(ack) => {
 					res(ack);
 				}
@@ -89,13 +97,33 @@ export default class Chat extends Vue {
 		const newId = uuid();
 		this.currentMessageId = newId;
 	}
-	submitMessage() {
-		// this.setNewId();
-		// this.text = '';
+
+	async submitMessage() {
+		this.setNewId();
+		//const username = this.userState.username;
+		//this.username = username;
+
+		this.text = '';
+		await this.syncMessage();
+		await this.addMessageToList();
 	}
+
 	async created() {
-		this.currentMessageListNode.map().on((data) => {
+		this.currentMessageListNode.map().on((data, path) => {
 			console.log(data);
+			const idMatches = path.match(/\/([^/]*)$/);
+
+			if (idMatches.length < 1) return;
+			const id = idMatches[1];
+			if (data.message) {
+				this.messageMap.set(id, data.message);
+				this.usernameMap.push(data.username);
+				if (data.username !== this.userState.username) {
+					this.messageMap.set(id, data.message);
+				}
+			} else if (!data.message && this.messageMap.has(id)) {
+				this.messageMap.delete(id);
+			}
 		});
 		this.setNewId();
 		await this.syncMessage();
