@@ -28,7 +28,10 @@
 				@input="syncMessage"
 			/>
 
-			<AppSendButton class="chat-container__bottom__button" />
+			<AppSendButton
+				class="chat-container__bottom__button"
+				@click="submitMessage"
+			/>
 		</div>
 	</div>
 </template>
@@ -37,37 +40,30 @@
 import { StoreSystem } from '@/systems/StoreSystem';
 import { Options, Vue } from 'vue-class-component';
 import { v4 as uuid } from 'uuid';
-
 @Options({
 	name: 'Chat'
 })
 export default class Chat extends Vue {
 	text = '';
-	currentMessageId = uuid();
-
+	currentMessageId = '';
 	get appGunNode() {
 		return this.$gun.get('livechat');
 	}
-
 	get currentChatName() {
 		return this.userState.chatName;
 	}
-
 	get userState() {
 		return StoreSystem.state.userState;
 	}
-
 	get currentMessageNode() {
 		return this.appGunNode
 			.get(`${this.currentChatName}`)
 			.get('messageListData')
 			.get(this.currentMessageId);
 	}
-
 	get currentMessageListNode() {
 		return this.appGunNode.get(`${this.currentChatName}`).get('messageList');
 	}
-
 	addMessageToList() {
 		return new Promise((res) => {
 			if (this.currentMessageNode) {
@@ -77,7 +73,6 @@ export default class Chat extends Vue {
 			}
 		});
 	}
-
 	syncMessage() {
 		return new Promise((res) => {
 			this.currentMessageNode.put(
@@ -90,11 +85,19 @@ export default class Chat extends Vue {
 			);
 		});
 	}
-
+	setNewId() {
+		const newId = uuid();
+		this.currentMessageId = newId;
+	}
+	submitMessage() {
+		// this.setNewId();
+		// this.text = '';
+	}
 	async created() {
 		this.currentMessageListNode.map().on((data) => {
 			console.log(data);
 		});
+		this.setNewId();
 		await this.syncMessage();
 		await this.addMessageToList();
 	}
@@ -109,23 +112,19 @@ export default class Chat extends Vue {
 	row-gap: 1rem;
 	max-width: 30rem;
 	margin: auto;
-
 	&__top {
 		grid-row: 1 / 9;
 		overflow-y: scroll;
 	}
-
 	&__bottom {
 		margin: 0 1rem;
 		grid-row: 9 / 11;
 		display: grid;
 		grid-template-columns: repeat(12, 1fr);
 		align-items: center;
-
 		&__text-field {
 			grid-column: 1 / 10;
 		}
-
 		&__button {
 			grid-column: 11 / 13;
 		}
