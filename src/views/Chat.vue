@@ -1,18 +1,17 @@
 <template>
 	<div class="chat-container">
 		<div class="chat-container__top" ref="chat">
-			<div v-for="(message, i) in messageList" :key="String(i)">
-				{{ Object.values(message._['>'])[0] }}
+			<div v-for="(messageId, i) in messageIdList" :key="String(i)">
 				<AppChatMessage
 					position="right"
-					v-if="userState.username === message.username"
-					@click="deleteSingleMessageFromList(message, i)"
+					v-if="userState.username === messageMap.get(messageId).username"
+					@click="deleteSingleMessageFromList(messageId)"
 				>
-					{{ message.message }}
+					{{ messageMap.get(messageId).message }}
 				</AppChatMessage>
 
 				<AppChatMessage position="left" v-else>
-					{{ message.message }}
+					{{ messageMap.get(messageId).message }}
 				</AppChatMessage>
 			</div>
 		</div>
@@ -27,7 +26,10 @@
 				@submit="submitMessage"
 			/>
 
-			<AppSendButton class="chat-container__bottom__button" @click="submitMessage" />
+			<AppSendButton
+				class="chat-container__bottom__button"
+				@click="submitMessage"
+			/>
 		</div>
 	</div>
 </template>
@@ -47,7 +49,7 @@ export default class Chat extends Vue {
 	prova = '';
 	messageMap = new Map<string, { message: string; username: string }>();
 
-	messageList = [];
+	messageIdList = [];
 
 	get appGunNode() {
 		return this.$gun.get('livechat');
@@ -119,22 +121,21 @@ export default class Chat extends Vue {
 			} else if (!data.message && this.messageMap.has(id)) {
 				this.messageMap.delete(id);
 			}
-			this.messageList = Array.from(this.messageMap.values());
+			this.messageIdList = Array.from(this.messageMap.keys());
 			if (this.$refs.chat) {
-				(this.$refs.chat as HTMLElement).scrollTop = (this.$refs.chat as HTMLElement).scrollHeight;
+				(this.$refs.chat as HTMLElement).scrollTop = (this.$refs
+					.chat as HTMLElement).scrollHeight;
 			}
 		});
 		this.setNewId();
 		await this.syncMessage();
 		await this.addMessageToList();
 	}
-	deleteSingleMessageFromList(message, index) {
-		//const id = Object.values(message._['>'][])
-		const id = Object.values(message._['>'])[0] as number;
+	deleteSingleMessageFromList(messageId) {
 		this.appGunNode
 			.get(`${this.currentChatName}`)
 			.get('messageListData')
-			.get(id)
+			.get(messageId)
 			.put({ message: '' });
 	}
 
