@@ -6,11 +6,11 @@
 					position="right"
 					v-if="userState.username === message.username"
 				>
-					{{ message.username }}: {{ message.message }}
+					{{ message.message }}
 				</AppChatMessage>
 
 				<AppChatMessage position="left" v-else>
-					{{ message.username }}: {{ message.message }}
+					{{ message.message }}
 				</AppChatMessage>
 			</div>
 		</div>
