@@ -1,5 +1,7 @@
 <template>
-	<div class="chat-message" :class="[position]"><slot></slot></div>
+	<div class="chat-message" :class="[position]" @dblclick="$emit('delete')">
+		<slot></slot>
+	</div>
 </template>
 
 <script lang="ts">
@@ -8,7 +10,7 @@ import { Options, Vue } from 'vue-class-component';
 
 @Options({
 	name: 'AppChatMessage',
-	components: {}
+	emits: ['delete']
 })
 export default class AppChatMessage extends Vue {
 	@Prop()

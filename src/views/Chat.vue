@@ -2,17 +2,19 @@
 	<div class="chat-container">
 		<div class="chat-container__top" ref="chat">
 			<div v-for="(messageId, i) in messageIdList" :key="String(i)">
-				<AppChatMessage
-					position="right"
-					v-if="userState.username === messageMap.get(messageId).username"
-					@click="deleteSingleMessageFromList(messageId)"
-				>
-					{{ messageMap.get(messageId).message }}
-				</AppChatMessage>
+				<template v-if="messageMap.get(messageId)">
+					<AppChatMessage
+						position="right"
+						@delete="deleteSingleMessageFromList(messageId, i)"
+						v-if="userState.username === messageMap.get(messageId).username"
+					>
+						{{ messageMap.get(messageId).message }}
+					</AppChatMessage>
 
-				<AppChatMessage position="left" v-else>
-					{{ messageMap.get(messageId).message }}
-				</AppChatMessage>
+					<AppChatMessage position="left" v-else>
+						{{ messageMap.get(messageId).message }}
+					</AppChatMessage>
+				</template>
 			</div>
 		</div>
 		<div class="chat-container__bottom">
@@ -131,12 +133,18 @@ export default class Chat extends Vue {
 		await this.syncMessage();
 		await this.addMessageToList();
 	}
-	deleteSingleMessageFromList(messageId) {
-		this.appGunNode
-			.get(`${this.currentChatName}`)
-			.get('messageListData')
-			.get(messageId)
-			.put({ message: '' });
+	deleteSingleMessageFromList(messageId: string, i: number) {
+		if (this.messageIdList.length - 1 === i) {
+			console.log(i, this.messageIdList.length);
+			this.text = '';
+		}
+		if (messageId) {
+			this.appGunNode
+				.get(`${this.currentChatName}`)
+				.get('messageListData')
+				.get(messageId)
+				.put({ message: '' });
+		}
 	}
 
 	//async deleteSingleMessage(item,index){
