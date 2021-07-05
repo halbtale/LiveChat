@@ -30,6 +30,7 @@ export default class AppChatMessage extends Vue {
 	margin: 1rem 1rem;
 	padding: 1rem 1rem;
 	border-radius: 10px;
+	//word-break: break-all;
 
 	&.left {
 		background-color: var(--color-violett);
