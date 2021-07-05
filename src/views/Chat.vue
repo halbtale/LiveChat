@@ -1,13 +1,13 @@
 <template>
 	<div class="chat-container">
 		<div class="chat-container__top">
-			{{messageList }}
-
+			{{ messageList }}
 			<div v-for="(message, i) in messageList" :key="String(i)">
-				<AppChatMessage  position="left" v-if="message.username[0] === userState.username">
-					{{ message.message }}
+				<AppChatMessage position="left" v-if="userState.username === message.username">
+					{{ message.username }}
 				</AppChatMessage>
-				<AppChatMessage position="right" v-if="message.username[0] !== userState.username">
+
+				<AppChatMessage position="right" v-else>
 					{{ message.message }}
 				</AppChatMessage>
 			</div>
@@ -42,10 +42,12 @@ export default class Chat extends Vue {
 
 	get messageList() {
 		const messages = Array.from(this.messageMap.values());
-		const users = [...new Set(this.usernameMap)]
-		const mergeMessagesAndUsers = messages.map((data)=>{
-			return {message:data,username:users}
-		})
+		const users = [...new Set(this.usernameMap)];
+		const mergeMessagesAndUsers = messages.map((data) => {
+			for (const element of users) {
+				return { message: data, username: element };
+			}
+		});
 		console.log(mergeMessagesAndUsers);
 		return mergeMessagesAndUsers;
 	}
