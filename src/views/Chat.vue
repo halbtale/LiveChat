@@ -1,6 +1,6 @@
 <template>
 	<div class="chat-container">
-		<div class="chat-container__top">
+		<div class="chat-container__top" ref="chat">
 			<div v-for="(message, i) in messageList" :key="String(i)">
 				<AppChatMessage
 					position="right"
@@ -21,6 +21,7 @@
 				v-model="text"
 				backgroundColor="accent"
 				@input="syncMessage"
+				@submit="submitMessage"
 			/>
 
 			<AppSendButton
@@ -116,6 +117,10 @@ export default class Chat extends Vue {
 				this.messageMap.delete(id);
 			}
 			this.messageList = Array.from(this.messageMap.values());
+			if (this.$refs.chat) {
+				(this.$refs.chat as HTMLElement).scrollTop = (this.$refs
+					.chat as HTMLElement).scrollHeight;
+			}
 		});
 		this.setNewId();
 		await this.syncMessage();
