@@ -1,14 +1,16 @@
 <template>
 	<div class="chat-container">
 		<div class="chat-container__top">
-			{{ messageList }}
 			<div v-for="(message, i) in messageList" :key="String(i)">
-				<AppChatMessage position="left" v-if="userState.username === message.username">
-					{{ message.username }}
+				<AppChatMessage
+					position="right"
+					v-if="userState.username === message.username"
+				>
+					{{ message.username }}: {{ message.message }}
 				</AppChatMessage>
 
-				<AppChatMessage position="right" v-else>
-					{{ message.message }}
+				<AppChatMessage position="left" v-else>
+					{{ message.username }}: {{ message.message }}
 				</AppChatMessage>
 			</div>
 		</div>
@@ -21,7 +23,10 @@
 				@input="syncMessage"
 			/>
 
-			<AppSendButton class="chat-container__bottom__button" @click="submitMessage" />
+			<AppSendButton
+				class="chat-container__bottom__button"
+				@click="submitMessage"
+			/>
 		</div>
 	</div>
 </template>
@@ -37,20 +42,9 @@ export default class Chat extends Vue {
 	text = '';
 	currentMessageId = '';
 	prova = '';
-	messageMap = new Map<string, string>();
-	usernameMap = []; // id, messa(id, data.message)
+	messageMap = new Map<string, { message: string; username: string }>();
 
-	get messageList() {
-		const messages = Array.from(this.messageMap.values());
-		const users = [...new Set(this.usernameMap)];
-		const mergeMessagesAndUsers = messages.map((data) => {
-			for (const element of users) {
-				return { message: data, username: element };
-			}
-		});
-		console.log(mergeMessagesAndUsers);
-		return mergeMessagesAndUsers;
-	}
+	messageList = [];
 
 	get appGunNode() {
 		return this.$gun.get('livechat');
@@ -112,20 +106,16 @@ export default class Chat extends Vue {
 
 	async created() {
 		this.currentMessageListNode.map().on((data, path) => {
-			console.log(data);
 			const idMatches = path.match(/\/([^/]*)$/);
 
 			if (idMatches.length < 1) return;
 			const id = idMatches[1];
-			if (data.message) {
-				this.messageMap.set(id, data.message);
-				this.usernameMap.push(data.username);
-				if (data.username !== this.userState.username) {
-					this.messageMap.set(id, data.message);
-				}
+			if (data.message && data.username) {
+				this.messageMap.set(id, data as { message: string; username: string });
 			} else if (!data.message && this.messageMap.has(id)) {
 				this.messageMap.delete(id);
 			}
+			this.messageList = Array.from(this.messageMap.values());
 		});
 		this.setNewId();
 		await this.syncMessage();
