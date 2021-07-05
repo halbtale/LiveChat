@@ -1,5 +1,6 @@
 <template>
 	<div class="header">
+		
 		<h2 class="header__title">LiveChat</h2>
 	</div>
 </template>
@@ -12,5 +13,11 @@
 	place-content: center;
 	text-align: center;
 	height: 10vh;
+	&__title{
+		color:var(--color-rose-gold)
+	}
+}
+i{
+	color:red;
 }
 </style>

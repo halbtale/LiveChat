@@ -2,10 +2,7 @@
 	<div class="chat-container">
 		<div class="chat-container__top" ref="chat">
 			<div v-for="(message, i) in messageList" :key="String(i)">
-				<AppChatMessage
-					position="right"
-					v-if="userState.username === message.username"
-				>
+				<AppChatMessage position="right" v-if="userState.username === message.username">
 					{{ message.message }}
 				</AppChatMessage>
 
@@ -24,10 +21,7 @@
 				@submit="submitMessage"
 			/>
 
-			<AppSendButton
-				class="chat-container__bottom__button"
-				@click="submitMessage"
-			/>
+			<AppSendButton class="chat-container__bottom__button" @click="submitMessage" />
 		</div>
 	</div>
 </template>
@@ -118,8 +112,7 @@ export default class Chat extends Vue {
 			}
 			this.messageList = Array.from(this.messageMap.values());
 			if (this.$refs.chat) {
-				(this.$refs.chat as HTMLElement).scrollTop = (this.$refs
-					.chat as HTMLElement).scrollHeight;
+				(this.$refs.chat as HTMLElement).scrollTop = (this.$refs.chat as HTMLElement).scrollHeight;
 			}
 		});
 		this.setNewId();

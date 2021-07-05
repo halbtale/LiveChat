@@ -54,11 +54,11 @@ export default class AppInput extends Vue {
 	}
 
 	&--primary {
-		background-color: var(--color-primary);
+		background-color: var(--color-dark);
 	}
 
 	&--accent {
-		background-color: var(--color-accent-dark);
+		background-color:  var(--color-dark);
 	}
 }
 </style>
