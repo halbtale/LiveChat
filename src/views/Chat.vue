@@ -1,23 +1,13 @@
 <template>
 	<div class="chat-container">
 		<div class="chat-container__top">
-			<!--	<AppChatMessage position="right" v-for="(singlemessage,i) in allMessages" :key="i">{{singlemessage.message}}</AppChatMessage>-->
-			<!-- 
-			<AppChatMessage position="right" v-for="(mex, i) in messages" :key="i">{{
-				mex
-			}}</AppChatMessage> -->
-			<!-- <AppChatMessage position="right" v-if="text.length > 0">{{
-				text
-			}}</AppChatMessage> -->
-			<!--<AppChatMessage position="left">Ciao!</AppChatMessage>
-			<AppChatMessage position="right">Ciao anche a te</AppChatMessage>
-			<AppChatMessage position="right">Come stai?</AppChatMessage>
-			<AppChatMessage position="left">Molto bene, tu?</AppChatMessage>
-			<AppChatMessage position="right">Anche io molto bene, grazie</AppChatMessage>
-			<AppChatMessage position="left">Andiamo a prendere un gelato?</AppChatMessage>
-			<AppChatMessage position="left">Ho fame...</AppChatMessage>
-			<AppChatMessage position="right">Sì dai</AppChatMessage>
-			<AppChatMessage position="right">{{message}}</AppChatMessage>-->
+			<AppChatMessage
+				position="right"
+				v-for="(message, i) in messageList"
+				:key="String(i)"
+			>
+				{{ message }}
+			</AppChatMessage>
 		</div>
 		<div class="chat-container__bottom">
 			<AppInput
@@ -47,6 +37,11 @@ import { v4 as uuid } from 'uuid';
 export default class Chat extends Vue {
 	text = '';
 	currentMessageId = '';
+	messageMap = new Map<string, string>(); // id, messa(id, data.message)
+
+	get messageList() {
+		return Array.from(this.messageMap.values());
+	}
 
 	get appGunNode() {
 		return this.$gun.get('livechat');
@@ -99,14 +94,23 @@ export default class Chat extends Vue {
 		this.currentMessageId = newId;
 	}
 
-	submitMessage() {
-		// this.setNewId();
-		// this.text = '';
+	async submitMessage() {
+		this.setNewId();
+		this.text = '';
+		await this.syncMessage();
+		await this.addMessageToList();
 	}
 
 	async created() {
-		this.currentMessageListNode.map().on((data) => {
-			console.log(data);
+		this.currentMessageListNode.map().on((data, path) => {
+			const idMatches = path.match(/\/([^/]*)$/);
+			if (idMatches.length < 1) return;
+			const id = idMatches[1];
+			if (data.message) {
+				this.messageMap.set(id, data.message);
+			} else if (!data.message && this.messageMap.has(id)) {
+				this.messageMap.delete(id);
+			}
 		});
 		this.setNewId();
 		await this.syncMessage();
