@@ -130,12 +130,13 @@ export default class Chat extends Vue {
 	}
 	deleteSingleMessageFromList(message, index) {
 		//const id = Object.values(message._['>'][])
-		const id = Object.values(message._['>'])[0] as number;
+		const id = Object.values(message._['>'])[0] as string;
+		console.log(id)
 		this.appGunNode
 			.get(`${this.currentChatName}`)
 			.get('messageListData')
-			.get(id)
-			.put({ message: '' });
+			.get(`${id}`)
+			.put({ message: '' ,username:''});
 	}
 
 	//async deleteSingleMessage(item,index){
