@@ -14,7 +14,8 @@
 	text-align: center;
 	height: 10vh;
 	&__title{
-		color:var(--color-rose-gold)
+		color:#fff;
+		//color:var(--color-rose-gold)
 	}
 }
 i{

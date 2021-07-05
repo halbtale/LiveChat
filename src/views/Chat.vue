@@ -13,6 +13,7 @@
 		</div>
 		<div class="chat-container__bottom">
 			<AppInput
+				id="input"
 				class="chat-container__bottom__text-field"
 				label="Message"
 				v-model="text"
@@ -147,5 +148,8 @@ export default class Chat extends Vue {
 			grid-column: 11 / 13;
 		}
 	}
+}
+#input {
+	width: 20rem;
 }
 </style>

@@ -31,6 +31,7 @@ export default class SetUsername extends Vue {
 <style scoped lang="scss">
 .set-username-container {
 	display: grid;
+	
 	place-content: center;
 	height: 90vh;
 }
