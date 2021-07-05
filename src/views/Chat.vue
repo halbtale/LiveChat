@@ -21,6 +21,7 @@
 				v-model="text"
 				backgroundColor="accent"
 				@input="syncMessage"
+				@submit="submitMessage"
 			/>
 
 			<AppSendButton
