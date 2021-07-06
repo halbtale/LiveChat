@@ -44,6 +44,7 @@ export default class SetChatname extends Vue {
 	align-content: center;
 	height: 82vh;
 	width: 80%;
+	max-width: 21rem;
 	margin: auto;
 	&__description {
 		color: var(--color-primary);

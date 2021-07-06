@@ -37,5 +37,6 @@ export default class SetUsername extends Vue {
 	height: 82vh;
 	width: 80%;
 	margin: auto;
+	max-width: 21rem;
 }
 </style>
