@@ -131,7 +131,6 @@ export default class Chat extends Vue {
 
 	deleteSingleMessageFromList(messageId: string, i: number) {
 		if (this.messageIdList.length - 1 === i) {
-			console.log(i, this.messageIdList.length);
 			this.text = '';
 		}
 		if (messageId) {
