@@ -24,7 +24,7 @@ app
     .component('icon', FontAwesomeIcon)
 
 if (process.env.NODE_ENV === 'production') {
-    app.use(VueGtag, {
+    app.use(VueGtag as any, {
         config: { id: "G-307SRCXQ68" }
     }, router)
 }
