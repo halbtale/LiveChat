@@ -1,7 +1,7 @@
 <template>
 	<div class="set-chat-name-container">
 		<span class="set-chat-name-container__description">
-			inserisci un nome uguale tra te e quello che si vuole connettere
+			The chat name must be equal to the person you're chatting to
 		</span>
 
 		<AppInput
@@ -38,11 +38,14 @@ export default class SetChatname extends Vue {
 <style scoped lang="scss">
 .set-chat-name-container {
 	display: grid;
-	place-content: center;
+	align-content: center;
 	height: 82vh;
-	&__description{
-		color:#0088cc;
-		margin-bottom:1rem;
+	width: 80%;
+	margin: auto;
+	&__description {
+		color: #0088cc;
+		margin-bottom: 1rem;
+		text-align: center;
 	}
 }
 </style>
