@@ -5,22 +5,17 @@
 		</div>
 		<div class="container__chatname" v-if="currentChatName.length > 0">
 			<span class="container__chatname__title">
-				{{currentChatName}}
+				{{ currentChatName }}
 			</span>
-			<img src="../../public/img/icons/live.jpeg" alt="">
-
-			
+			<img src="../../public/img/icons/live.jpeg" alt="" />
 		</div>
-		
 	</div>
 </template>
 <script lang="ts">
-import { Model, Prop } from 'vue-property-decorator';
 import { Options, Vue } from 'vue-class-component';
 import { StoreSystem } from '@/systems/StoreSystem';
 @Options({
-	name: 'Header',
-	
+	name: 'Header'
 })
 export default class Header extends Vue {
 	get currentChatName() {
@@ -29,7 +24,6 @@ export default class Header extends Vue {
 	get userState() {
 		return StoreSystem.state.userState;
 	}
-	
 }
 </script>
 <style scoped lang="scss">
@@ -48,24 +42,23 @@ export default class Header extends Vue {
 i {
 	color: red;
 }
-.container__chatname{
-	flex-direction:column;
+.container__chatname {
+	flex-direction: column;
 	background-color: white;
 	color: var(--color-light);
-	display:flex;
+	display: flex;
 	justify-content: center;
 	place-content: center;
 	align-items: center;
 	text-align: center;
 	height: 8vh;
-	&__title{
+	&__title {
 		color: var(--color-dark);
-
 	}
-	&>img{
-		width:2rem;
+	& > img {
+		width: 2rem;
 		//margin-right:2rem;
-		height:2rem;
+		height: 2rem;
 	}
 }
 </style>

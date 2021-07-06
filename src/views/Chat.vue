@@ -1,7 +1,5 @@
 <template>
 	<div class="chat-container">
-		
-
 		<div class="chat-container__top" ref="chat">
 			<div v-for="(messageId, i) in messageIdList" :key="String(i)">
 				<template v-if="messageMap.get(messageId)">
@@ -152,11 +150,10 @@ export default class Chat extends Vue {
 </script>
 
 <style scoped lang="scss">
-
 .chat-container {
 	display: grid;
 	grid-template-rows: repeat(10, 1fr);
-	height: 90vh;
+	height: 82vh;
 	row-gap: 1rem;
 	max-width: 30rem;
 	margin: auto;

@@ -15,13 +15,13 @@ import { Options, Vue } from 'vue-class-component';
 	name: 'SetChatname'
 })
 export default class SetChatname extends Vue {
-	chatName = ''
+	chatName = '';
 	get userState() {
 		return StoreSystem.state.userState;
 	}
 
 	onChatNameSubmit() {
-		this.userState.chatName =this.chatName
+		this.userState.chatName = this.chatName;
 		this.$router.push({ name: 'Chat' });
 	}
 }
@@ -31,6 +31,6 @@ export default class SetChatname extends Vue {
 .set-chat-name-container {
 	display: grid;
 	place-content: center;
-	height: 90vh;
+	height: 82vh;
 }
 </style>
