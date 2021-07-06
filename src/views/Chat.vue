@@ -27,12 +27,14 @@
 				@input="syncMessage"
 				@submit="submitMessage"
 			/>
+		
 
 			<AppSendButton
 				class="chat-container__bottom__button"
 				@click="submitMessage"
 			/>
 		</div>
+			<button class="send-message-button" @click="submitMessage"><span>Send Message</span></button>
 	</div>
 </template>
 
@@ -169,6 +171,22 @@ export default class Chat extends Vue {
 		&__button {
 			grid-column: 11 / 13;
 		}
+	}
+}
+.send-message-button{
+	background-color:#404eed;
+	border-radius:2rem;
+	width:24rem;
+	position:relative;
+	left:0.5rem;
+	border:none;
+	height:3rem;
+	cursor:pointer;
+	&>span{
+		color:var(--color-light)
+	}
+	&:hover{
+		box-shadow: 1px 0px 10px 3px var(--color-dark);
 	}
 }
 </style>
