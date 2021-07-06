@@ -9,6 +9,7 @@
 			v-model="chatName"
 			@submit="onChatNameSubmit"
 		/>
+		<AppButton @click="onChatNameSubmit">Confirm</AppButton>
 	</div>
 </template>
 
@@ -29,8 +30,10 @@ export default class SetChatname extends Vue {
 	}
 
 	onChatNameSubmit() {
-		this.userState.chatName = this.chatName;
-		this.$router.push({ name: 'Chat' });
+		if (this.chatName) {
+			this.userState.chatName = this.chatName;
+			this.$router.push({ name: 'Chat' });
+		}
 	}
 }
 </script>
@@ -43,7 +46,7 @@ export default class SetChatname extends Vue {
 	width: 80%;
 	margin: auto;
 	&__description {
-		color: #0088cc;
+		color: var(--color-primary);
 		margin-bottom: 1rem;
 		text-align: center;
 	}

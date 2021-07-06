@@ -5,6 +5,7 @@
 			v-model="userState.username"
 			@submit="onUsernameSubmit"
 		/>
+		<AppButton @click="onUsernameSubmit">Confirm</AppButton>
 	</div>
 </template>
 
