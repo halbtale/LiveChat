@@ -71,7 +71,7 @@ export default class Chat extends Vue {
 	}
 
 	sendMessageTrackingEvent() {
-		if (this.$gtag) {
+		if (this?.$gtag) {
 			this.$gtag.event('send_message_action', {
 				event_category: 'engagement',
 				event_label: 'method'
