@@ -1,7 +1,9 @@
 <template>
 	<div>
 		<div class="header">
-			<h2 class="header__title">LiveChat</h2>
+			<h2 class="header__title" @click="$router.push({ name: 'SetChatName' })">
+				LiveChat
+			</h2>
 		</div>
 		<div class="container__chatname" v-if="currentChatName.length > 0">
 			<span class="container__chatname__title">

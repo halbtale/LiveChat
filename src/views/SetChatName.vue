@@ -20,6 +20,10 @@ export default class SetChatname extends Vue {
 		return StoreSystem.state.userState;
 	}
 
+	mounted() {
+		this.userState.chatName = '';
+	}
+
 	onChatNameSubmit() {
 		this.userState.chatName = this.chatName;
 		this.$router.push({ name: 'Chat' });
