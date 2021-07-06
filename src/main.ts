@@ -11,7 +11,6 @@ import store from './store'
 import Gun from 'gun/gun';
 import { VueAutofocusDirective } from './directives/VueAutofocusDirective';
 import VueGtag from "vue-gtag";
-
 const gun = new Gun({ peers: ['https://gunjs-server.herokuapp.com/gun'] });
 
 library.add(faPaperPlane)

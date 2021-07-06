@@ -72,6 +72,15 @@ export default class Chat extends Vue {
 		return this.appGunNode.get(`${this.currentChatName}`).get('messageList');
 	}
 
+	sendMessageTrackingEvent() {
+		if (this.$gtag) {
+			this.$gtag.event('send_message_action', {
+				event_category: 'engagement',
+				event_label: 'method'
+			});
+		}
+	}
+
 	addMessageToList() {
 		return new Promise((res) => {
 			if (this.currentMessageNode) {
@@ -103,10 +112,8 @@ export default class Chat extends Vue {
 	}
 
 	async submitMessage() {
+		this.sendMessageTrackingEvent();
 		this.setNewId();
-		//const username = this.userState.username;
-		//this.username = username;
-
 		this.text = '';
 		await this.syncMessage();
 		await this.addMessageToList();
