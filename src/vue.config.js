@@ -1,5 +1,8 @@
 module.exports = {
-	configureWebpack: {
-		noParse: /gun\.js$/
+	pwa: {
+		name: 'LiveChat',
+		appleMobileWebAppCapable: 'yes',
+		appleMobileWebAppStatusBarStyle: 'black-translucent',
+		themeColor: '#3ba55d'
 	}
 };
