@@ -63,13 +63,11 @@ export default class Chat extends Vue {
 		return StoreSystem.state.userState;
 	}
 	get currentMessageNode() {
-		return this.appGunNode
-			.get(`${this.currentChatName}`)
-			.get('messageListData')
-			.get(this.currentMessageId);
+		return this.currentMessageListDataNode.get(this.currentMessageId);
 	}
-	get currentMessageListNode() {
-		return this.appGunNode.get(`${this.currentChatName}`).get('messageList');
+
+	get currentMessageListDataNode() {
+		return this.appGunNode.get(`${this.currentChatName}`).get('messageListData');
 	}
 
 	sendMessageTrackingEvent() {
@@ -79,16 +77,6 @@ export default class Chat extends Vue {
 				event_label: 'method'
 			});
 		}
-	}
-
-	addMessageToList() {
-		return new Promise((res) => {
-			if (this.currentMessageNode) {
-				this.currentMessageListNode.set(this.currentMessageNode, (ack) => {
-					res(ack);
-				});
-			}
-		});
 	}
 
 	syncMessage() {
@@ -116,30 +104,31 @@ export default class Chat extends Vue {
 		this.setNewId();
 		this.text = '';
 		await this.syncMessage();
-		await this.addMessageToList();
 	}
 
 	async created() {
-		this.currentMessageListNode.map().on((data, path) => {
-			const idMatches = path.match(/\/([^/]*)$/);
-
-			if (idMatches.length < 1) return;
-			const id = idMatches[1];
-			if (data.message && data.username) {
-				this.messageMap.set(id, data as { message: string; username: string });
-			} else if (!data.message && this.messageMap.has(id)) {
-				this.messageMap.delete(id);
-			}
-			this.messageIdList = Array.from(this.messageMap.keys());
-			if (this.$refs.chat) {
-				(this.$refs.chat as HTMLElement).scrollTop = (this.$refs
-					.chat as HTMLElement).scrollHeight;
-			}
-		});
+		this.currentMessageListDataNode
+			.map()
+			.on((data: { message: string; username: string }, id: string) => {
+				if (!data || !data.message || !data.username || !id) return;
+				if (data.message && data.username) {
+					this.messageMap.set(
+						id,
+						data as { message: string; username: string }
+					);
+				} else if (!data.message && this.messageMap.has(id)) {
+					this.messageMap.delete(id);
+				}
+				this.messageIdList = Array.from(this.messageMap.keys());
+				if (this.$refs.chat) {
+					(this.$refs.chat as HTMLElement).scrollTop = (this.$refs
+						.chat as HTMLElement).scrollHeight;
+				}
+			});
 		this.setNewId();
 		await this.syncMessage();
-		await this.addMessageToList();
 	}
+
 	deleteSingleMessageFromList(messageId: string, i: number) {
 		if (this.messageIdList.length - 1 === i) {
 			console.log(i, this.messageIdList.length);

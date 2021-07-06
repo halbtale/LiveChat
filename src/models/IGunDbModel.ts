@@ -1,4 +1,3 @@
-import { StoreSystem } from '@/systems/StoreSystem';
 export interface IGunDbModel {
     livechat: {
         [chatMessageName: string]: {
@@ -6,18 +5,8 @@ export interface IGunDbModel {
                 [id: string]: {
                     message: string;
                     username: string
-
                 }
             },
-
-            messageList: any[],
-
-
-
-
-
-
-
         }
     }
 }
