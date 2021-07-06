@@ -2,10 +2,9 @@ import { StoreSystem } from '@/systems/StoreSystem';
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 
 const routes: Array<RouteRecordRaw> = [
-  { path: '/', redirect: { name: 'SetUsername' } },
+  { path: '/set-username', name: "SetUsername", component: async () => import("../views/SetUsername.vue"), alias: '/' },
   { path: '/set-chat-name', name: "SetChatName", component: async () => import("../views/SetChatName.vue"), meta: { requiresUsername: true } },
   { path: '/chat', name: "Chat", component: async () => import("../views/Chat.vue"), meta: { requiresUsername: true, requiresChatName: true } },
-  { path: '/set-username', name: "SetUsername", component: async () => import("../views/SetUsername.vue") },
 ]
 
 const router = createRouter({
