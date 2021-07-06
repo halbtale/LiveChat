@@ -23,7 +23,7 @@ app
     .directive("autofocus", VueAutofocusDirective)
     .component('icon', FontAwesomeIcon)
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production' && VueGtag) {
     app.use(VueGtag as any, {
         config: { id: "G-307SRCXQ68" }
     }, router)

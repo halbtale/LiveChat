@@ -1,7 +1,7 @@
 <template>
 	<div class="set-chat-name-container">
 		<span class="set-chat-name-container__description">
-			inserisci un nome uguale tra te e quello che si vuole connettere
+			The chat name must be equal to the person you're chatting to
 		</span>
 
 		<AppInput
@@ -9,6 +9,7 @@
 			v-model="chatName"
 			@submit="onChatNameSubmit"
 		/>
+		<AppButton @click="onChatNameSubmit">Confirm</AppButton>
 	</div>
 </template>
 
@@ -24,9 +25,15 @@ export default class SetChatname extends Vue {
 		return StoreSystem.state.userState;
 	}
 
+	mounted() {
+		this.userState.chatName = '';
+	}
+
 	onChatNameSubmit() {
-		this.userState.chatName = this.chatName;
-		this.$router.push({ name: 'Chat' });
+		if (this.chatName) {
+			this.userState.chatName = this.chatName;
+			this.$router.push({ name: 'Chat' });
+		}
 	}
 }
 </script>
@@ -34,11 +41,15 @@ export default class SetChatname extends Vue {
 <style scoped lang="scss">
 .set-chat-name-container {
 	display: grid;
-	place-content: center;
+	align-content: center;
 	height: 82vh;
-	&__description{
-		color:#0088cc;
-		margin-bottom:1rem;
+	width: 80%;
+	max-width: 21rem;
+	margin: auto;
+	&__description {
+		color: var(--color-primary);
+		margin-bottom: 1rem;
+		text-align: center;
 	}
 }
 </style>
