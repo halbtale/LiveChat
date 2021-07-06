@@ -110,7 +110,7 @@ export default class Chat extends Vue {
 		this.currentMessageListDataNode
 			.map()
 			.on((data: { message: string; username: string }, id: string) => {
-				if (!data || !data.message || !data.username || !id) return;
+				if (!data || !id) return;
 				if (data.message && data.username) {
 					this.messageMap.set(
 						id,
