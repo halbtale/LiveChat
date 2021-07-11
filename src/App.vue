@@ -1,5 +1,4 @@
 <template>
-	<Header />
 	<router-view />
 </template>
 
@@ -9,12 +8,12 @@ import { StoreSystem } from '@/systems/StoreSystem';
 import { LocalStorageSystem } from './systems/LocalStorageSystem';
 export default class App extends Vue {
 	created() {
-		const data = LocalStorageSystem.getItem('chatNameArray');
-		if (!data) {
-			return null;
-		}
-		data.forEach((chat) => {
-			StoreSystem.state.userState.chatNameArray.push(chat);
+		const username = LocalStorageSystem.getItem('username');
+		StoreSystem.state.userState.username = username;
+
+		const chatNameArray = LocalStorageSystem.getItem('chatNameArray');
+		chatNameArray?.forEach((chat) => {
+			StoreSystem.state.userState.chatNameArray.add(chat);
 		});
 	}
 }

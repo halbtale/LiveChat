@@ -1,30 +1,26 @@
 <template>
 	<div>
 		<div class="header">
-			<h2 class="header__title" @click="$router.push({ name: 'SetChatName' })">
+			<h2 class="header__title" @click="$router.push({ name: 'ChatList' })">
 				LiveChat
 			</h2>
 		</div>
-		<div class="container__chatname" v-if="currentChatName.length > 0">
+		<div class="container__chatname" v-if="subtitle">
 			<span class="container__chatname__title">
-				{{ currentChatName }}
+				{{ subtitle }}
 			</span>
 		</div>
 	</div>
 </template>
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
-import { StoreSystem } from '@/systems/StoreSystem';
+import { Prop } from 'vue-property-decorator';
 @Options({
 	name: 'Header'
 })
 export default class Header extends Vue {
-	get currentChatName() {
-		return this.userState.chatName;
-	}
-	get userState() {
-		return StoreSystem.state.userState;
-	}
+	@Prop()
+	subtitle: string;
 }
 </script>
 <style scoped lang="scss">
@@ -36,13 +32,10 @@ export default class Header extends Vue {
 	text-align: center;
 	height: 10vh;
 	&__title {
-		cursor:pointer;
+		cursor: pointer;
 		color: #fff;
 		//color:var(--color-rose-gold)
 	}
-}
-i {
-	color: red;
 }
 .container__chatname {
 	flex-direction: column;

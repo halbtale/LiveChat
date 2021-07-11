@@ -1,7 +1,8 @@
 <template>
+	<Header :subtitle="currentChatName" />
 	<div class="chat-container">
 		<div class="chat-container__top" ref="chat">
-		<!--	<span class="total-users">Users in this chat: {{allUsersInsideTheChat.length}}</span>-->
+			<!--	<span class="total-users">Users in this chat: {{allUsersInsideTheChat.length}}</span>-->
 			<div v-for="(messageId, i) in messageIdList" :key="String(i)">
 				<template v-if="messageMap.get(messageId)">
 					<AppChatMessage
@@ -10,13 +11,17 @@
 						@delete="deleteSingleMessageFromList(messageId, i)"
 						v-if="userState.username === messageMap.get(messageId).username"
 					>
-					
 						{{ messageMap.get(messageId).message }}
 					</AppChatMessage>
 
 					<AppChatMessage position="left" v-else class="other-user-message">
-							<span  v-if="allUsersInsideTheChat.length > 2" class="username">{{ messageMap.get(messageId).username }}</span>
-						<span :class="allUsersInsideTheChat.length > 2 ? 'message' : ''">{{ messageMap.get(messageId).message }}</span>
+						<span v-if="allUsersInsideTheChat.length > 2" class="username">{{
+							messageMap.get(messageId).username
+						}}</span>
+						<span
+							:class="allUsersInsideTheChat.length > 2 ? 'message' : ''"
+							>{{ messageMap.get(messageId).message }}</span
+						>
 					</AppChatMessage>
 				</template>
 			</div>
@@ -32,8 +37,11 @@
 				@submit="submitMessage"
 			/>
 
-			<AppSendButton class="chat-container__bottom__button" @click="submitMessage" />
-		<!--	<AppSendVocalMessage class="chat-container__left__button"/>-->
+			<AppSendButton
+				class="chat-container__bottom__button"
+				@click="submitMessage"
+			/>
+			<!--	<AppSendVocalMessage class="chat-container__left__button"/>-->
 		</div>
 	</div>
 </template>
@@ -73,9 +81,9 @@ export default class Chat extends Vue {
 	}
 	get allUsersInsideTheChat() {
 		const allUsers = [];
-		for (let [key, value] of this.messageMap) {
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		for (let [_, value] of this.messageMap) {
 			allUsers.push(value.username);
-			console.log(key + ' = ' + value);
 		}
 		const uniqueUsers = [...new Set(allUsers)];
 		return uniqueUsers;
@@ -117,18 +125,24 @@ export default class Chat extends Vue {
 	}
 
 	async created() {
-		this.currentMessageListDataNode.map().on((data: { message: string; username: string }, id: string) => {
-			if (!data || !id) return;
-			if (data.message && data.username) {
-				this.messageMap.set(id, data as { message: string; username: string });
-			} else if (!data.message && this.messageMap.has(id)) {
-				this.messageMap.delete(id);
-			}
-			this.messageIdList = Array.from(this.messageMap.keys());
-			if (this.$refs.chat) {
-				(this.$refs.chat as HTMLElement).scrollTop = (this.$refs.chat as HTMLElement).scrollHeight;
-			}
-		});
+		this.currentMessageListDataNode
+			.map()
+			.on((data: { message: string; username: string }, id: string) => {
+				if (!data || !id) return;
+				if (data.message && data.username) {
+					this.messageMap.set(
+						id,
+						data as { message: string; username: string }
+					);
+				} else if (!data.message && this.messageMap.has(id)) {
+					this.messageMap.delete(id);
+				}
+				this.messageIdList = Array.from(this.messageMap.keys());
+				if (this.$refs.chat) {
+					(this.$refs.chat as HTMLElement).scrollTop = (this.$refs
+						.chat as HTMLElement).scrollHeight;
+				}
+			});
 		this.setNewId();
 		await this.syncMessage();
 	}
@@ -174,7 +188,7 @@ export default class Chat extends Vue {
 			grid-column: 11 / 13;
 		}
 	}
-	&__left{
+	&__left {
 		margin: 0 1rem;
 		column-gap: 1rem;
 		grid-row: 9 / 11;
@@ -187,12 +201,11 @@ export default class Chat extends Vue {
 		&__button {
 			grid-column: 11 / 13;
 		}
-
 	}
 }
 .cursor {
 	cursor: pointer;
-	position:relative;
+	position: relative;
 }
 .total-users {
 	position: absolute;
@@ -200,20 +213,18 @@ export default class Chat extends Vue {
 	left: 5rem;
 	color: var(--color-dark);
 }
-.username{
-	margin:-0.9rem 0 0 0;
+.username {
+	margin: -0.9rem 0 0 0;
 	//left:1rem;
-	color:#ffb766;
-	font-size:0.9rem;
-	position:absolute;
-	
+	color: #ffb766;
+	font-size: 0.9rem;
+	position: absolute;
 }
-.other-user-message{
-	position:relative;
+.other-user-message {
+	position: relative;
 }
-.message{
-	top:0.3rem;
-	position:relative;
-	
+.message {
+	top: 0.3rem;
+	position: relative;
 }
 </style>

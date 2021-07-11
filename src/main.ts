@@ -1,6 +1,6 @@
 import "@/assets/style/main.scss";
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faPaperPlane, faMicrophone, faPlus, faUserCircle } from '@fortawesome/free-solid-svg-icons'
+import { faPaperPlane, faMicrophone, faPlus, faUserCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { createApp } from 'vue'
 import App from './App.vue'
@@ -17,6 +17,9 @@ library.add(faPaperPlane)
 library.add(faMicrophone)
 library.add(faPlus)
 library.add(faUserCircle)
+library.add(faTimesCircle)
+
+
 const app = createApp(App)
 
 app

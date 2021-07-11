@@ -1,10 +1,15 @@
 <template>
+	<Header />
 	<div class="set-chat-name-container">
 		<span class="set-chat-name-container__description">
 			The chat name must be equal to the person you're chatting to
 		</span>
 		<!--<AppLogo></AppLogo>-->
-		<AppInput label="What is your chat's name?" v-model="chatName" @submit="onChatNameSubmit" />
+		<AppInput
+			label="What is your chat's name?"
+			v-model="chatName"
+			@submit="onChatNameSubmit"
+		/>
 		<AppButton @click="onChatNameSubmit">Confirm</AppButton>
 	</div>
 </template>
@@ -12,7 +17,7 @@
 <script lang="ts">
 import { StoreSystem } from '@/systems/StoreSystem';
 import { Options, Vue } from 'vue-class-component';
-import {LocalStorageSystem} from '../systems/LocalStorageSystem'
+import { LocalStorageSystem } from '../systems/LocalStorageSystem';
 @Options({
 	name: 'SetChatname'
 })
@@ -30,9 +35,11 @@ export default class SetChatname extends Vue {
 		if (this.chatName) {
 			this.userState.chatName = this.chatName;
 
-			this.userState.chatNameArray.push(this.chatName)
-			console.log(this.userState.chatNameArray)
-			LocalStorageSystem.setItem('chatNameArray',this.userState.chatNameArray)
+			this.userState.chatNameArray.add(this.chatName);
+			LocalStorageSystem.setItem(
+				'chatNameArray',
+				Array.from(this.userState.chatNameArray)
+			);
 			this.$router.push({ name: 'Chat' });
 		}
 	}
