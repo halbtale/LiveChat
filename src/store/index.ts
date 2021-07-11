@@ -4,7 +4,8 @@ export default createStore({
   state: {
     userState: {
       username: '',
-      chatName: ''
+      chatName: '',
+      chatNameArray: [],
     }
   },
   mutations: {

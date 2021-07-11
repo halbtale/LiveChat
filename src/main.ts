@@ -1,6 +1,6 @@
 import "@/assets/style/main.scss";
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
+import { faPaperPlane, faMicrophone, faPlus, faUserCircle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { createApp } from 'vue'
 import App from './App.vue'
@@ -14,7 +14,9 @@ import VueGtag from "vue-gtag";
 const gun = new Gun({ peers: ['https://gunjs-server.herokuapp.com/gun'] });
 
 library.add(faPaperPlane)
-
+library.add(faMicrophone)
+library.add(faPlus)
+library.add(faUserCircle)
 const app = createApp(App)
 
 app
@@ -22,6 +24,7 @@ app
     .use(router)
     .directive("autofocus", VueAutofocusDirective)
     .component('icon', FontAwesomeIcon)
+
 
 if (process.env.NODE_ENV === 'production' && VueGtag) {
     app.use(VueGtag as any, {

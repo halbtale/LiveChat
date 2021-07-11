@@ -1,10 +1,8 @@
 <template>
 	<div class="set-username-container">
-		<AppInput
-			label="What is your username?"
-			v-model="userState.username"
-			@submit="onUsernameSubmit"
-		/>
+		<!--<AppLogo></AppLogo>-->
+		<AppInput label="What is your username?" v-model="userState.username" @submit="onUsernameSubmit" />
+
 		<AppButton @click="onUsernameSubmit">Confirm</AppButton>
 	</div>
 </template>

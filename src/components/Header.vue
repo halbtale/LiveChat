@@ -36,6 +36,7 @@ export default class Header extends Vue {
 	text-align: center;
 	height: 10vh;
 	&__title {
+		cursor:pointer;
 		color: #fff;
 		//color:var(--color-rose-gold)
 	}

@@ -15,7 +15,7 @@ export default class AppButton extends Vue {}
 
 <style scoped lang="scss">
 .app-button {
-	background-color: var(--color-primary-dark);
+	background-color:var(--color-primary);
 	border-radius: 2rem;
 	width: 100%;
 	border: none;
@@ -25,7 +25,7 @@ export default class AppButton extends Vue {}
 		color: var(--color-light);
 	}
 	&:hover {
-		box-shadow: 1px 0px 10px 3px var(--color-dark);
+		box-shadow: 1px 0px 10px 3px var(--color-primary);
 	}
 }
 </style>

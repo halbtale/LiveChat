@@ -33,6 +33,7 @@
 			/>
 
 			<AppSendButton class="chat-container__bottom__button" @click="submitMessage" />
+		<!--	<AppSendVocalMessage class="chat-container__left__button"/>-->
 		</div>
 	</div>
 </template>
@@ -172,6 +173,21 @@ export default class Chat extends Vue {
 		&__button {
 			grid-column: 11 / 13;
 		}
+	}
+	&__left{
+		margin: 0 1rem;
+		column-gap: 1rem;
+		grid-row: 9 / 11;
+		display: grid;
+		grid-template-columns: repeat(12, 1fr);
+		align-items: center;
+		&__text-field {
+			grid-column: 1 / 11;
+		}
+		&__button {
+			grid-column: 11 / 13;
+		}
+
 	}
 }
 .cursor {
